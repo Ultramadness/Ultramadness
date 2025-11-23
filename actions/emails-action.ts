@@ -6,7 +6,7 @@ import WelcomeEmail from "@/emails/WelcomeEmail";
 export async function sendWelcomeEmail(email: string) {
   try {
     await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",
+      from: "Ultramadness <subscripcion@ultramadness.mx>",
       to: email,
       subject: "¡Bienvenido a Ultramadness!",
       react: WelcomeEmail({ email }),

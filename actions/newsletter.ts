@@ -107,7 +107,7 @@ export async function sendEventAnnouncement(
       : "";
 
     await resend.emails.send({
-      from: "Ultramadness <notificaciones@resend.dev>",
+      from: "Ultramadness <notificaciones@ultramadness.mx>",
       to: emails,
       subject: `Nuevo Evento: ${event.title}`,
       react: EventAnnouncementEmail({
