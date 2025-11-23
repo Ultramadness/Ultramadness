@@ -1,4 +1,5 @@
 import { defineQuery } from "next-sanity";
+import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/live";
 import { urlFor } from "@/sanity/lib/image";
 import { PortableText } from "@portabletext/react";
@@ -22,6 +23,35 @@ const BLOG_QUERY = defineQuery(`*[_type == "blog" && _id == $id][0]{
   },
   content
 }`);
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const { data: blog } = await sanityFetch({
+    query: BLOG_QUERY,
+    params: { id },
+  });
+
+  if (!blog) {
+    return {
+      title: "Blog no encontrado",
+      description: "El artículo que buscas no existe.",
+    };
+  }
+
+  return {
+    title: blog.title || "Artículo de Blog",
+    description: blog.description || "",
+    openGraph: {
+      title: blog.title || undefined,
+      description: blog.description || undefined,
+      images: blog.coverImage ? [urlFor(blog.coverImage).url()] : [],
+    },
+  };
+}
 
 export default async function BlogDetailPage({
   params,
@@ -57,7 +87,7 @@ export default async function BlogDetailPage({
           <div className="relative h-96 w-full mb-8 rounded-lg overflow-hidden">
             <Image
               src={urlFor(blog.coverImage).url()}
-              alt={blog.title}
+              alt={blog.title || "Imagen del Blog"}
               fill
               className="object-cover"
             />

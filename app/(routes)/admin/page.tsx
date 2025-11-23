@@ -3,6 +3,13 @@ import { AdminEvents } from "@/components/admin/AdminEvents";
 import { SignOutButton } from "@/components/admin/SignOutButton";
 import { redirect } from "next/navigation";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Panel de Administración",
+  description: "Gestión de contenidos y usuarios de Ultramadness",
+};
+
 export default async function AdminPage() {
   const session = await auth();
 

@@ -5,7 +5,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model AdminUser {
@@ -22,7 +21,7 @@ model AdminUser {
 model NewsletterSubscriber {
   id        String   @id @default(cuid())
   email     String   @unique
-  source    String   @default("footer") // "footer" o "contact_form"
+  source    String   @default("footer")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

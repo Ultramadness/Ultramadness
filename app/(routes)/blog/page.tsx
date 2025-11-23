@@ -22,6 +22,14 @@ const BLOGS_QUERY = defineQuery(`*[_type == "blog"] | order(_createdAt desc){
   _createdAt
 }`);
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description:
+    "Descubrí el universo detrás de la música a oscuras. Crónicas, análisis y reflexiones.",
+};
+
 export default async function BlogPage() {
   const { data: blogs } = await sanityFetch({ query: BLOGS_QUERY });
 

@@ -59,7 +59,7 @@ export const Navbar = ({ external }: { external?: boolean }) => {
 
           <Link
             className="hidden lg:flex relative overflow-hidden group px-5 py-1.5 bg-primary font-medium text-lg text-background rounded-xs"
-            href={"Contacto"}
+            href={external ? "/#contacto" : "#contacto"}
           >
             <span className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
             Registrate
