@@ -1,5 +1,3 @@
-import { baseUrl } from "./utils";
-
 export const navLinks = [
   {
     title: "Inicio",
@@ -26,22 +24,22 @@ export const navLinks = [
 export const navLinksExternal = [
   {
     title: "Inicio",
-    id: `${baseUrl}#inicio`,
+    id: `/#inicio`,
   },
   {
     title: "Eventos",
-    id: `${baseUrl}#eventos`,
+    id: `/#eventos`,
   },
   {
     title: "Blog",
-    id: `${baseUrl}#blog`,
+    id: `/#blog`,
   },
   {
     title: "Testimonios",
-    id: `${baseUrl}#testimonios`,
+    id: `/#testimonios`,
   },
   {
     title: "Contacto",
-    id: `${baseUrl}#contacto`,
+    id: `/#contacto`,
   },
 ];

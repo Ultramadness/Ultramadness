@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { newsletterSchema } from "@/lib/validations/newsletter";
 import { z } from "zod";
 import { resend } from "@/lib/resend";
@@ -13,7 +13,7 @@ import { urlFor } from "@/sanity/lib/image";
 
 export async function subscribeToNewsletter(
   data: z.infer<typeof newsletterSchema>,
-  source: "footer" | "contact_form" = "footer"
+  source: "footer" | "contact_form" = "footer",
 ) {
   try {
     // Validar los datos con Zod
@@ -73,7 +73,7 @@ export type EventAnnouncementState = {
 // Server Action con estado
 export async function sendEventAnnouncement(
   prevState: EventAnnouncementState,
-  formData: FormData
+  formData: FormData,
 ): Promise<EventAnnouncementState> {
   try {
     const eventId = formData.get("eventId") as string;

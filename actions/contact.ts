@@ -1,12 +1,12 @@
 "use server";
 
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { contactFormSchema } from "@/lib/validations/contact-form";
 import { subscribeToNewsletter } from "@/actions/newsletter";
 import { z } from "zod";
 
 export async function submitContactForm(
-  data: z.infer<typeof contactFormSchema>
+  data: z.infer<typeof contactFormSchema>,
 ) {
   try {
     // Validar los datos con Zod
@@ -29,7 +29,7 @@ export async function submitContactForm(
     if (validatedData.receiveNews) {
       await subscribeToNewsletter(
         { email: validatedData.email },
-        "contact_form"
+        "contact_form",
       );
     }
 
