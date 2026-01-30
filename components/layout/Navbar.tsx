@@ -38,7 +38,7 @@ export const Navbar = ({ external }: { external?: boolean }) => {
             src={"/ultramadness-logo.png"}
             alt="Ultramadness Logo"
             fill
-            objectFit="contain"
+            className="object-contain"
           />
         </Link>
 

@@ -18,7 +18,7 @@ export const Footer = async ({ external }: { external?: boolean }) => {
               src={"/ultramadness-logo.png"}
               alt="Ultramadness Logo"
               fill
-              objectFit="contain"
+              className="object-contain"
             />
           </div>
         </Link>

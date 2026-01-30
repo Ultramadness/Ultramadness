@@ -12,14 +12,17 @@ import { NOSOTROS_QUERY } from "@/sanity/query/HomeQuery";
 export const NosotrosSection = async () => {
   const { data: sobreNosotros } = await sanityFetch({ query: NOSOTROS_QUERY });
 
-  const imgURL = urlFor(sobreNosotros?.image).url();
+  if (!sobreNosotros) return null;
+
+  const imgURL = sobreNosotros.image ? urlFor(sobreNosotros.image).url() : "";
 
   return (
     <Container
       id="blog"
       className="min-h-screen bg-cover bg-center bg-no-repeat"
       style={{
-        backgroundImage: `
+        backgroundImage: imgURL
+          ? `
         linear-gradient(
         to bottom,
         var(--background) 0%,
@@ -27,7 +30,8 @@ export const NosotrosSection = async () => {
         var(--background) 100%
         ),
         url('${imgURL}')
-        `,
+        `
+          : "none",
       }}
     >
       <article className="py-20 flex flex-col items-start justify-end ">
@@ -36,7 +40,7 @@ export const NosotrosSection = async () => {
             src={"/ultramadness-logo.png"}
             alt="Ultramadness Logo"
             fill
-            objectFit="contain"
+            className="object-contain"
           />
         </div>
 
@@ -44,25 +48,25 @@ export const NosotrosSection = async () => {
           <h2
             className={`font-crimson font-semibold text-2xl xl:text-3xl italic mb-1`}
           >
-            {sobreNosotros?.title}
+            {sobreNosotros.title}
           </h2>
           <div className="w-[68%] bg-primary h-1" />
         </div>
 
         <p className="my-6 font-light w-[60%] lg:text-lg lg:w-1/2 xl:w-[40%] 2xl:w-[30%]">
-          {sobreNosotros?.description}
+          {sobreNosotros.description}
         </p>
 
         <div className="my-8 space-y-4 w-full">
           <p className="text-lg xl:text-xl w-[70%] xl:w-1/2 2xl:w-[30%]">
-            {sobreNosotros?.subtitle}
+            {sobreNosotros.subtitle}
           </p>
 
           <Link
             href={"/blog"}
             className={cn(
               buttonVariants(),
-              "rounded-xs text-lg font-semibold h-10 group w-44"
+              "rounded-xs text-lg font-semibold h-10 group w-44",
             )}
           >
             Entra al Blog

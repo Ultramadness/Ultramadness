@@ -12,12 +12,9 @@ export const PerformanceSection = async () => {
     return null;
   }
 
-  const imagesData = performance.images.map(
-    (image: {
-      asset: {
-        metadata: { dimensions: { aspectRatio: number } };
-      };
-    }) => {
+  const imagesData = performance.images
+    .filter((image: any) => image?.asset?.metadata?.dimensions)
+    .map((image: any) => {
       const aspectRatio = image.asset.metadata.dimensions.aspectRatio;
       let orientation: "square" | "horizontal" | "vertical" = "square";
 
@@ -31,8 +28,9 @@ export const PerformanceSection = async () => {
         url: urlFor(image).url(),
         orientation,
       };
-    }
-  );
+    });
+
+  if (imagesData.length === 0) return null;
 
   const reversedImagesData = [...imagesData].reverse();
 
@@ -40,8 +38,8 @@ export const PerformanceSection = async () => {
     <section className="py-16 md:py-24">
       <div className="flex flex-col items-center gap-12">
         <TitleSection
-          title={performance.title}
-          description={performance.description}
+          title={performance.title || ""}
+          description={performance.description || ""}
           className="text-center flex flex-col items-center"
         />
 

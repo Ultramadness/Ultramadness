@@ -15,7 +15,7 @@ export const TestimonialCard = ({
           src={"/testimonial.jpg"}
           alt="Testimonial Image"
           fill
-          objectFit="cover"
+          className="object-cover"
         />
       </div>
 

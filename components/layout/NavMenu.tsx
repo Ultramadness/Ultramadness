@@ -54,7 +54,7 @@ const NavMenu = ({
               src={"/ultramadness-logo.png"}
               alt="Ultramadness Logo"
               fill
-              objectFit="contain"
+              className="object-contain"
             />
           </Link>
 
