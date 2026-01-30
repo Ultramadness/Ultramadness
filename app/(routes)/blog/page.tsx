@@ -30,6 +30,8 @@ export const metadata: Metadata = {
     "Descubrí el universo detrás de la música a oscuras. Crónicas, análisis y reflexiones.",
 };
 
+export const revalidate = 60;
+
 export default async function BlogPage() {
   const { data: blogs } = await sanityFetch({ query: BLOGS_QUERY });
 
@@ -77,7 +79,7 @@ export default async function BlogPage() {
                   <div className="relative h-48 w-full">
                     <Image
                       src={urlFor(blog.coverImage).url()}
-                      alt={blog.title}
+                      alt={blog.title || "Imagen del blog"}
                       fill
                       className="object-cover"
                     />

@@ -9,8 +9,12 @@ import Link from "next/link";
 import { HeroSectionSkeleton } from "../skeletons/HeroSectionSkeleton";
 
 export const HeroSection = async () => {
-  const { data: hero } = await sanityFetch({ query: HERO_QUERY });
-  const { data: redesSociales } = await sanityFetch({ query: REDES_QUERY });
+  const { data: hero } = await sanityFetch({
+    query: HERO_QUERY,
+  });
+  const { data: redesSociales } = await sanityFetch({
+    query: REDES_QUERY,
+  });
 
   if (!hero || !hero.title) {
     return <HeroSectionSkeleton />;
