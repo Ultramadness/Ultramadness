@@ -1,6 +1,7 @@
 import { sanityFetch } from "@/sanity/lib/live";
 import { EVENTOS_QUERY } from "@/sanity/query/Eventos";
 import { EventCard } from "./EventCard";
+import { Eventos } from "@/sanity.types";
 
 export async function AdminEvents() {
   const { data: eventos } = await sanityFetch({ query: EVENTOS_QUERY });
@@ -14,8 +15,8 @@ export async function AdminEvents() {
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {eventos?.eventList?.map((item) => (
-          <EventCard key={item._key} item={item} />
+        {eventos?.eventList?.map((item: Eventos, id: number) => (
+          <EventCard key={id} item={item} />
         ))}
       </div>
     </div>

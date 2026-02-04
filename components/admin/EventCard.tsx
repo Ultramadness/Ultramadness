@@ -10,11 +10,12 @@ import {
   EventAnnouncementState,
   sendEventAnnouncement,
 } from "@/actions/newsletter";
+import { Evento } from "@/sanity.types";
 
-export const EventCard = ({ item }) => {
+export const EventCard = ({ item }: { item: Evento }) => {
   const [state, action, isPending] = useActionState<EventAnnouncementState>(
     sendEventAnnouncement,
-    { success: false, message: "" }
+    { success: false, message: "" },
   );
 
   // Mostrar toast cuando cambie el estado
@@ -52,7 +53,7 @@ export const EventCard = ({ item }) => {
           disabled={isPending}
           className={cn(
             buttonVariants({ variant: "default" }),
-            "w-full rounded-xs"
+            "w-full rounded-xs",
           )}
         >
           {isPending ? "Enviando..." : "Enviar Anuncio"}
@@ -63,7 +64,7 @@ export const EventCard = ({ item }) => {
         <p
           className={cn(
             "text-sm",
-            state.success ? "text-primary" : "text-red-500"
+            state.success ? "text-primary" : "text-red-500",
           )}
         >
           {state.message}

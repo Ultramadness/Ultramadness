@@ -2,7 +2,6 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 export default async function ContactosPage() {
   const session = await auth();
