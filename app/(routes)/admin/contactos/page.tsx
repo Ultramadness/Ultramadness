@@ -2,19 +2,47 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
+import { EmailFilter } from "@/components/admin/contactos/EmailFilter";
 
-export default async function ContactosPage() {
+interface ContactosPageProps {
+  searchParams: Promise<{ email?: string }>;
+}
+
+export default async function ContactosPage({
+  searchParams,
+}: ContactosPageProps) {
   const session = await auth();
 
   if (!session?.user) {
     redirect("/admin/login");
   }
 
-  const contactos = await prisma.contactForm.findMany({
+  const { email: selectedEmail } = await searchParams;
+
+  // Obtener todos los contactos
+  const allContactos = await prisma.contactForm.findMany({
     orderBy: {
       createdAt: "desc",
     },
   });
+
+  // Obtener emails únicos con su cantidad para el filtro
+  const emailCounts = allContactos.reduce(
+    (acc, c) => {
+      acc[c.email] = (acc[c.email] || 0) + 1;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
+
+  const emailOptions = Object.entries(emailCounts)
+    .map(([email, count]) => ({ email, count }))
+    .sort((a, b) => a.email.localeCompare(b.email));
+
+  // Filtrar contactos por email si hay uno seleccionado
+  const contactos = selectedEmail
+    ? allContactos.filter((c) => c.email === selectedEmail)
+    : allContactos;
 
   return (
     <div className="min-h-screen p-8">
@@ -29,16 +57,25 @@ export default async function ContactosPage() {
             </Link>
             <h1 className="text-4xl font-bold">Formularios de Contacto</h1>
             <p className="text-muted-foreground">
-              Total de mensajes: {contactos.length}
+              {selectedEmail
+                ? `Mensajes de ${selectedEmail}: ${contactos.length}`
+                : `Total de mensajes: ${contactos.length}`}
             </p>
           </div>
+        </div>
+
+        {/* Filtro por email */}
+        <div className="mb-6 p-4 border rounded-lg bg-muted/20">
+          <EmailFilter emails={emailOptions} totalCount={allContactos.length} />
         </div>
 
         <div className="space-y-4">
           {contactos.length === 0 ? (
             <div className="text-center py-12 border rounded-lg">
               <p className="text-muted-foreground">
-                No hay mensajes de contacto aún
+                {selectedEmail
+                  ? `No hay mensajes del email ${selectedEmail}`
+                  : "No hay mensajes de contacto aún"}
               </p>
             </div>
           ) : (

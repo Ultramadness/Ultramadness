@@ -20,6 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { type AudienceMember } from "@/actions/audience";
+import Link from "next/link";
 
 interface AudienceTableProps {
   data: AudienceMember[];
@@ -145,7 +146,18 @@ export function AudienceTable({ data, isLoading }: AudienceTableProps) {
                     >
                       Copiar Email
                     </DropdownMenuItem>
-                    <DropdownMenuItem>Enviar Mensaje Directo</DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href={`/admin/comunicacion/crear`}>
+                        Enviar Mensaje Directo
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link
+                        href={`/admin/contactos?email=${encodeURIComponent(member.email)}`}
+                      >
+                        Ver Mensajes
+                      </Link>
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>
