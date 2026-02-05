@@ -19,10 +19,13 @@ export type RedesSociales = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  twitter?: string;
-  facebook?: string;
-  youtube?: string;
-  instagram?: string;
+  redes?: Array<{
+    name?: "facebook" | "twitter" | "instagram" | "youtube" | "whatsapp" | "tiktok";
+    title?: string;
+    url?: string;
+    _type: "redSocial";
+    _key: string;
+  }>;
 };
 
 export type PreguntasFrecuentes = {
@@ -477,16 +480,30 @@ export type BLOGS_QUERYResult = Array<{
 
 // Source: ./sanity/query/Eventos.ts
 // Variable: EVENTOS_QUERY
-// Query: *[_id == "eventos"][0]{...}
+// Query: *[_id == "eventos"][0]{  _id,  title,  description,  image,  eventList[]{    title,    description,    image,    date,    url  }}
 export type EVENTOS_QUERYResult = {
   _id: string;
-  _type: "blog";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  description?: string;
-  coverImage?: {
+  title: null;
+  description: null;
+  image: null;
+  eventList: null;
+} | {
+  _id: string;
+  title: string | null;
+  description: null;
+  image: null;
+  eventList: null;
+} | {
+  _id: string;
+  title: string | null;
+  description: string | null;
+  image: null;
+  eventList: null;
+} | {
+  _id: string;
+  title: string | null;
+  description: string | null;
+  image: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -497,49 +514,13 @@ export type EVENTOS_QUERYResult = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
-  };
-  genre?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "generoMusical";
-  };
-  content?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
+  } | null;
+  eventList: null;
 } | {
   _id: string;
-  _type: "contacto";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  description?: string;
-  googleMapsCordenates?: string;
-} | {
-  _id: string;
-  _type: "eventos";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  description?: string;
-  image?: {
+  title: string | null;
+  description: string | null;
+  image: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -550,137 +531,11 @@ export type EVENTOS_QUERYResult = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
-  };
-  eventList?: Array<{
-    _key: string;
-  } & Evento>;
-} | {
-  _id: string;
-  _type: "generoMusical";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-} | {
-  _id: string;
-  _type: "hero";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  backgroundImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  announcement?: string;
-  title?: string;
-  subtitle?: string;
-  darkenImage?: boolean;
-  blurText?: boolean;
-} | {
-  _id: string;
-  _type: "performance";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  description?: string;
-  images?: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-    _key: string;
-  }>;
-} | {
-  _id: string;
-  _type: "preguntasFrecuentes";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  questions?: Array<{
-    question?: string;
-    answer?: string;
-    _key: string;
-  }>;
-} | {
-  _id: string;
-  _type: "redesSociales";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  twitter?: string;
-  facebook?: string;
-  youtube?: string;
-  instagram?: string;
-} | {
-  _id: string;
-  _type: "sanity.fileAsset";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  originalFilename?: string;
-  label?: string;
-  title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
-  uploadId?: string;
-  path?: string;
-  url?: string;
-  source?: SanityAssetSourceData;
-} | {
-  _id: string;
-  _type: "sanity.imageAsset";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  originalFilename?: string;
-  label?: string;
-  title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
-  uploadId?: string;
-  path?: string;
-  url?: string;
-  metadata?: SanityImageMetadata;
-  source?: SanityAssetSourceData;
-} | {
-  _id: string;
-  _type: "servicios";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  description?: string;
-  services?: Array<{
-    title?: string;
-    description?: string;
-    icon?: {
+  } | null;
+  eventList: Array<{
+    title: string | null;
+    description: string | null;
+    image: {
       asset?: {
         _ref: string;
         _type: "reference";
@@ -691,45 +546,10 @@ export type EVENTOS_QUERYResult = {
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       _type: "image";
-    };
-    _key: string;
-  }>;
-} | {
-  _id: string;
-  _type: "sobreNosotros";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  subtitle?: string;
-  description?: string;
-  buttonDescription?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-} | {
-  _id: string;
-  _type: "testimonios";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  description?: string;
-  textTestimonials?: Array<{
-    _key: string;
-  } & TestimonioTexto>;
-  videoTestimonials?: Array<{
-    _key: string;
-  } & TestimonioVideo>;
+    } | null;
+    date: string | null;
+    url: string | null;
+  }> | null;
 } | null;
 
 // Source: ./sanity/query/Generos.ts
@@ -939,13 +759,16 @@ export type CONTACTO_QUERYResult = {
 
 // Source: ./sanity/query/RedesSociales.ts
 // Variable: REDES_QUERY
-// Query: *[_type == "redesSociales"]{  twitter,  facebook,  youtube,  instagram}
-export type REDES_QUERYResult = Array<{
-  twitter: string | null;
-  facebook: string | null;
-  youtube: string | null;
-  instagram: string | null;
-}>;
+// Query: *[_type == "redesSociales"][0]{  redes}
+export type REDES_QUERYResult = {
+  redes: Array<{
+    name?: "facebook" | "instagram" | "tiktok" | "twitter" | "whatsapp" | "youtube";
+    title?: string;
+    url?: string;
+    _type: "redSocial";
+    _key: string;
+  }> | null;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
@@ -953,7 +776,7 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"blog\" && _id == $id][0]{\n  _id,\n  title,\n  description,\n  coverImage,\n  genre->{\n    name,\n    slug\n  },\n  content\n}": BLOG_QUERYResult;
     "*[_type == \"blog\"] | order(_createdAt desc){\n  _id,\n  title,\n  description,\n  coverImage,\n  genre->{\n    name,\n    slug\n  },\n  _createdAt\n}": BLOGS_QUERYResult;
-    "*[_id == \"eventos\"][0]{\n...\n}\n": EVENTOS_QUERYResult;
+    "*[_id == \"eventos\"][0]{\n  _id,\n  title,\n  description,\n  image,\n  eventList[]{\n    title,\n    description,\n    image,\n    date,\n    url\n  }\n}": EVENTOS_QUERYResult;
     "*[_type == \"generoMusical\"]{\n  _id,\n  name,\n  slug\n}": GENEROS_QUERYResult;
     "*[_id == \"hero\"][0]{\n  backgroundImage,\n  darkenImage,\n  blurText,\n  announcement,\n  title,\n  subtitle\n  }": HERO_QUERYResult;
     "*[_id == \"servicios\"][0]{\n  title,\n  description,\n  services,\n  }": SERVICIOS_QUERYResult;
@@ -962,6 +785,6 @@ declare module "@sanity/client" {
     "*[_type == \"preguntasFrecuentes\"][0]{\n  _id,\n  title,\n  questions[]{\n    question,\n    answer\n  }\n}": PREGUNTAS_QUERYResult;
     "*[_id == \"sobreNosotros\"][0]{\n  title,\n  subtitle,\n  description,\n  buttonDescription,\n  image,\n  }": NOSOTROS_QUERYResult;
     "*[_type == \"contacto\"][0]{\n  _id,\n  title,\n  description,\n  googleMapsCordenates\n}": CONTACTO_QUERYResult;
-    "*[_type == \"redesSociales\"]{\n  twitter,\n  facebook,\n  youtube,\n  instagram\n}": REDES_QUERYResult;
+    "*[_type == \"redesSociales\"][0]{\n  redes\n}": REDES_QUERYResult;
   }
 }

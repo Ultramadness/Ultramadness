@@ -5,12 +5,13 @@ import { RevealText } from "../RevealText";
 import { sanityFetch } from "@/sanity/lib/live";
 import { NewsletterForm } from "../NewsletterForm";
 import { REDES_QUERY } from "@/sanity/query/RedesSociales";
+import { RedSocial } from "@/sanity/schemaTypes/redesSociales";
 
 export const Footer = async ({ external }: { external?: boolean }) => {
   const { data: redesSociales } = await sanityFetch({ query: REDES_QUERY });
 
   return (
-    <footer className="py-16 px-6 md:px-12 bg-background flex flex-wrap justify-between items-center lg:items-start">
+    <footer className="py-16 px-6 md:px-12 bg-background gap-12 flex flex-wrap justify-between items-center lg:items-start">
       <div className="max-w-[420px]">
         <Link href={"/"}>
           <div className="relative h-16 w-60 md:h-20 md:w-[420px]">
@@ -68,19 +69,25 @@ export const Footer = async ({ external }: { external?: boolean }) => {
           <h4 className="font-crimson font-semibold text-2xl">Relacionados</h4>
 
           <ul className="flex flex-col mt-2 ">
-            {redesSociales &&
-              redesSociales.length > 0 &&
-              Object.entries(redesSociales[0]).map(([key, value]) => {
-                if (!value) return null;
+            {redesSociales?.redes &&
+              redesSociales.redes.length > 0 &&
+              redesSociales.redes.map((social: RedSocial) => {
+                if (!social.url || !social.name) return null;
 
-                const title = key.charAt(0).toUpperCase() + key.slice(1);
+                const displayName =
+                  social.title ||
+                  social.name.charAt(0).toUpperCase() + social.name.slice(1);
 
                 return (
                   <li
-                    key={key}
+                    key={social._key || social.name}
                     className="text-2xl font-crimson h-10 overflow-clip"
                   >
-                    <RevealText text={title} to={value} delayPerLetter={30} />
+                    <RevealText
+                      text={displayName}
+                      to={social.url}
+                      delayPerLetter={30}
+                    />
                   </li>
                 );
               })}

@@ -1,10 +1,17 @@
 import { AnuncioSlider } from "@/components/AnuncioSlider";
 import { buttonVariants } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { urlFor } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/live";
 import { HERO_QUERY } from "@/sanity/query/HomeQuery";
 import { REDES_QUERY } from "@/sanity/query/RedesSociales";
+import { RedSocial } from "@/sanity/schemaTypes/redesSociales";
 import Link from "next/link";
 import { HeroSectionSkeleton } from "../skeletons/HeroSectionSkeleton";
 
@@ -41,33 +48,43 @@ export const HeroSection = async () => {
         }}
       >
         <div className="relative z-5 flex flex-col mt-2 gap-2 px-6 md:px-12 items-end">
-          {redesSociales &&
-            redesSociales.length > 0 &&
-            Object.entries(redesSociales[0]).map(([key, value]) => {
-              if (!value || key === "_id" || key === "_type") return null;
+          <TooltipProvider>
+            {redesSociales?.redes &&
+              redesSociales.redes.length > 0 &&
+              redesSociales.redes.map((social: RedSocial) => {
+                if (!social.url || !social.name) return null;
 
-              const iconMap: Record<string, string> = {
-                facebook: "ri-facebook-line",
-                instagram: "ri-instagram-line",
-                twitter: "ri-twitter-x-line",
-                youtube: "ri-youtube-line",
-              };
+                const iconMap: Record<string, string> = {
+                  facebook: "ri-facebook-line",
+                  instagram: "ri-instagram-line",
+                  twitter: "ri-twitter-x-line",
+                  youtube: "ri-youtube-line",
+                  whatsapp: "ri-whatsapp-line",
+                  tiktok: "ri-tiktok-fill",
+                };
 
-              const icon = iconMap[key];
-              if (!icon) return null;
+                const icon = iconMap[social.name];
+                if (!icon) return null;
 
-              return (
-                <a
-                  key={key}
-                  href={value as string}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center transition-colors"
-                >
-                  <i className={`${icon} text-3xl text-primary`} />
-                </a>
-              );
-            })}
+                return (
+                  <Tooltip key={social._key || social.name}>
+                    <TooltipTrigger asChild>
+                      <a
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center transition-colors hover:text-primary/80"
+                      >
+                        <i className={`${icon} text-3xl text-primary`} />
+                      </a>
+                    </TooltipTrigger>
+                    <TooltipContent side="left">
+                      <p>{social.title || social.name}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                );
+              })}
+          </TooltipProvider>
         </div>
 
         <article className="relative w-full px-6 md:px-12 md:pb-4">
