@@ -69,6 +69,7 @@ export const VideoSlider = ({ videos }: { videos: VideoTestimonial[] }) => {
                 <video
                   src={videoUrl}
                   controls
+                  preload="metadata"
                   className="w-full h-full object-contain"
                 >
                   Tu navegador no soporta el elemento de video.

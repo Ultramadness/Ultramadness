@@ -35,7 +35,9 @@ export const EventoSection = async () => {
     return <EventoSectionSkeleton />;
   }
 
-  const imgUrl = eventos.image ? urlFor(eventos.image).url() : "";
+  const imgUrl = eventos.image
+    ? urlFor(eventos.image).width(1920).quality(75).auto("format").url()
+    : "";
 
   return (
     <Container
@@ -70,9 +72,15 @@ export const EventoSection = async () => {
                 <Link href={item.url} target="_blank">
                   <div className="relative w-72 h-96 xl:w-80 xl:h-[400px]">
                     <Image
-                      src={urlFor(item.image).url()}
+                      src={urlFor(item.image)
+                        .width(500)
+                        .height(700)
+                        .quality(75)
+                        .auto("format")
+                        .url()}
                       alt={item.title || "Imagen del Evento"}
                       fill
+                      sizes="(max-width: 768px) 100vw, 400px"
                       className="object-contain"
                     />
                   </div>

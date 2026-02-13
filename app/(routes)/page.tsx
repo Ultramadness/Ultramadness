@@ -7,9 +7,9 @@ export const metadata: Metadata = {
   description: "Bienvenido a Ultramadness. Una experiencia sensorial única.",
 };
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
 
-export const revalidate = 60;
+export const revalidate = 300;
 
 export default function Home() {
   return <HomeContent />;

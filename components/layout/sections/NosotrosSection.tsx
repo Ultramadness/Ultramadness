@@ -10,34 +10,39 @@ import { ArrowRight } from "lucide-react";
 import { NOSOTROS_QUERY } from "@/sanity/query/HomeQuery";
 
 export const NosotrosSection = async () => {
-  const { data: sobreNosotros } = await sanityFetch({ query: NOSOTROS_QUERY });
+  const { data: sobreNosotros } = await sanityFetch({
+    query: NOSOTROS_QUERY,
+  });
 
   if (!sobreNosotros) return null;
 
-  const imgURL = sobreNosotros.image ? urlFor(sobreNosotros.image).url() : "";
+  const imgURL = sobreNosotros.image
+    ? urlFor(sobreNosotros.image).width(1920).quality(75).auto("format").url()
+    : null;
 
   return (
-    <Container
-      id="blog"
-      className="min-h-screen bg-cover bg-center bg-no-repeat"
-      style={{
-        backgroundImage: imgURL
-          ? `
-        linear-gradient(
-        to bottom,
-        var(--background) 0%,
-        rgba(0, 0, 0, 0) 50%,
-        var(--background) 100%
-        ),
-        url('${imgURL}')
-        `
-          : "none",
-      }}
-    >
-      <article className="py-20 flex flex-col items-start justify-end ">
+    <Container id="blog" className="relative min-h-screen overflow-hidden">
+      {/* Background image */}
+      {imgURL && (
+        <div className="absolute inset-0 -z-20">
+          <Image
+            src={imgURL}
+            alt="Sobre Nosotros Background"
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
+      )}
+
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 -z-10 bg-linear-to-b from-background via-transparent to-background" />
+
+      {/* Contenido */}
+      <article className="relative py-20 flex flex-col items-start justify-end">
         <div className="relative w-64 h-20 sm:w-80 md:w-md md:h-24 xl:w-lg 2xl:h-28 2xl:w-2xl xl:mb-2">
           <Image
-            src={"/ultramadness-logo.png"}
+            src="/ultramadness-logo.png"
             alt="Ultramadness Logo"
             fill
             className="object-contain"
@@ -45,9 +50,7 @@ export const NosotrosSection = async () => {
         </div>
 
         <div>
-          <h2
-            className={`font-crimson font-semibold text-2xl xl:text-3xl italic mb-1`}
-          >
+          <h2 className="font-crimson font-semibold text-2xl xl:text-3xl italic mb-1">
             {sobreNosotros.title}
           </h2>
           <div className="w-[68%] bg-primary h-1" />
@@ -63,7 +66,7 @@ export const NosotrosSection = async () => {
           </p>
 
           <Link
-            href={"/blog"}
+            href="/blog"
             className={cn(
               buttonVariants(),
               "rounded-xs text-lg font-semibold h-10 group w-44",

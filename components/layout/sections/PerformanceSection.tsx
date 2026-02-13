@@ -25,7 +25,7 @@ export const PerformanceSection = async () => {
       }
 
       return {
-        url: urlFor(image).url(),
+        url: urlFor(image).width(800).quality(70).auto("format").url(),
         orientation,
       };
     });
